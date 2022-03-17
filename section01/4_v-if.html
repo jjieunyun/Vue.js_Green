@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-if</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--V-if : if문과 같은 흐름제어 
+    data객체 안의 결과값이 불리언을 갖는 속성을 가져와서 그 결과값이 true -> 요소생성
+    아니면 -->
+
+    <div id="app">
+        <button v-on:click="error=!error">
+            error true/false
+        </button>
+        <p v-if="error">에러발생 : 이미지를 로드하지 못했습니다.</p>
+        <p v-else-if="appear">에러는 발생하지 않았지만 그림은 없습니다.</p>
+        <p v-else>마지막 else로 만들어진 p태그입니다.</p>
+    <hr>
+    <h3>v-if</h3>
+    
+        <button v-on:click="login =!login">임시로그인버튼</button>
+        <!--login이 true일때-->
+        <p v-if="login">{{name}}님이, 로그인을 하였습니다.</p>
+        <!--login이 false일때-->
+        <div v-else="login">
+            <p>아이디를 입력해주세요</p>
+            <input type="text" v-model="name">
+        </div>
+    <hr>
+        <h3>v-if 실습(2)</h3>
+        <button v-on:click="canAddCart = !canAddCart">임시 canAddCart버튼</button>
+        <!--canAddCart ==true -->
+        <div v-if="canAddCart">
+            <p>상품이 있습니다.</p>
+            <button>구매 가능합니다.</button>
+        </div>
+        
+        <!--canAddCart ==false -->
+        <div v-else="canAddCart">
+            <p>상품이 없습니다.</p>
+            <button :disabled="disabled">구매가 불가능합니다.</button>
+        </div>
+
+        <p>{{canAddCart? "상품이 있습니다.":"상품이 없습니다"}}</p>
+        <button :disabled="!canAddCart">
+            구매 {{canAddCart? "가능":"불가능"}} 합니다.
+        </button>
+        <hr>
+
+        <!--
+        V-show : false일때 display:none으로 변경하여 보이지 않게 숨긴다.
+        -->
+        <h3 v-show="canAddCart">상품이 있으므로 보입니다.</h3>
+        <p>canAddCart가 true일때 '상품이 있으므로 보입니다.'라는 글이 보여짐</p>
+        
+    </div>
+
+
+    <script>
+        new Vue({
+            el : "#app",
+            data : {
+                error : false,
+                appear : "",
+                name : "",
+                login : false,
+                canAddCart : true,
+                disabled : true
+            }
+        });
+
+    </script>
+
+</body>
+</html>

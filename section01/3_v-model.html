@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--V모델 : form요소와 동기화해서 사용하는 양방향 바인딩-->
+    <!--적용되는 form요소
+        1. input text
+        2. input checkbox
+        3. input radio
+    -->
+
+    <div id="app">
+        <h2>V-model</h2>
+        <!--vmodel은 -->
+        <input type="text" v-model="name">
+        <p>{{name}}</p>
+
+        <input type="checkbox" v-model="checked"><span>수업을 듣고있나요? {{checked? "네":"아니오"}}</span>
+    </div>
+
+    <script>
+        new Vue ({
+            el : "#app",
+            data : {
+                name : "",
+                checked : true,
+            }
+        })
+    </script>
+</body>
+</html>

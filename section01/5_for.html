@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for문</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .book_table {
+            border: blue solid 2px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .book_table tr:nth-of-type(odd) {
+            background-color: lightblue;
+        }
+        .book_table tr:nth-of-type(even) {
+            background-color:mediumturquoise;
+        }
+
+        .book_table td {
+            border: blue solid 1px;
+            padding: 3px;
+        }
+
+        .namelist_table {
+            border-collapse: collapse;
+        }
+
+        .namelist_table td {
+            text-align: center;
+            padding: 5px;
+            border: 1px solid black;
+        }
+
+        .namelist_table tr:nth-of-type(odd) {
+            background-color: antiquewhite;
+        }
+    </style>
+</head>
+<body>
+    <!--
+        JS에서 for문과 같은 흐름제어
+        v-for = "item in array" 을 통해서 반복가능 (숫자도 가능)
+    -->
+
+    <div id="app">
+        <h1>v-for</h1>
+            <ul>
+                <!--books라는 배열에 값을 book에 담아서 사용-->
+                <li v-for="book in books">{{book.title + ", (남은 권수 : " + book.stock +")"}}</li>
+                
+                <!--n in 숫자를 사용하면 1~숫자값까지 반복한다.-->
+                <li v-for ="n in 10">{{n}}</li>
+            </ul>
+
+            <!--객체도 동일하게 반복문을 사용할 수 있다.-->
+                <li v-for="value in person_h">{{ value }}</li>
+            </ul>
+    
+            <hr>
+            <h2>v-for실습</h2>
+                <h3>빌린 사람</h3>
+                <ol>
+                    <li v-for="value in people"> {{value}} </li>
+                </ol>
+    
+            <hr>
+            <!--v-for를 사용하여 테이블 만들기-->
+            <h2>도서목록</h2>
+            <table class="book_table">
+                <tr>
+                    <td>도서번호</td>
+                    <td>도서명</td>
+                    <td>재고량</td>
+                </tr>
+                <tr v-for="book in books">
+                    <td>{{ book.id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.stock }}</td>
+                </tr>
+            </table>
+            <hr>
+            <h2>v-for실습(2)</h2>
+            <table class="namelist_table">
+                <tr>
+                    <td>이름</td>
+                    <td>재고수량</td>
+                    <td>도서명</td>
+                </tr>
+                <tr v-for="person in namelist">
+                    <td>{{ person.name }}</td>
+                    <!--n값을 이용해서 배열의 인덱스에 접근할 수 있다.-->
+                    <td>{{ person.stock }}</td>
+                    <td v-for="num in person.book">{{ num }}</td>
+                    
+                </tr>
+            </table>
+    
+    </div>
+
+    <!--스크립트-->
+    <script>
+        new Vue({
+            el: "#app",
+            data : {
+                books : [
+                    {id:1, title: "마지막수업",stock: 1},
+                    {id:2, title: "불편한 편의점",stock: 2},
+                    {id:3, title: "그리스로마신화",stock:3},
+                    {id:4, title: "월씽킹",stock:0},
+                    {id:5, title: "돈의심리학",stock:1},
+                    {id:6, title: "오만과 편견",stock:6},
+                ],
+                person_h : {
+                    name : '홍길동',
+                    bookCount : 2,
+                },
+                people : [
+                    "철수",
+                    "영희",
+                    "가",
+                    "나",
+                    "다",
+                    "라",
+                    "마"
+                ],
+                namelist : [
+                    {name: "철수", book : ["그리스 로마 신화"], stock : 0}, 
+                    {name: "영희", book : ["월씽킹", "불편한 편의점", "돈의심리학"], stock:1},
+                    {name: "민수", book : ["뉴스를 보는 눈", "오만과 편견"], stock: 2},
+                    {name: "민지", book : ["마지막수업", "햄릿"], stock:4},
+                ]
+            }
+        })
+
+
+    </script>
+</body>
+</html>
