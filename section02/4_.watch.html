@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>watch</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+        computed : 
+        data객체 내의 데이터를 모니터링 /데이터 이름과 watch이름 똑같음
+        데이터값이 바뀌면 함수 실행
+    -->
+    <div id="app">
+        <h1>watch속성</h1>
+        <label for="">십진수</label>
+        <input type="text" v-model="dec">
+        <br>
+        <label for="">이진수</label>
+        <input type="text" v-model="binary">
+    </div>
+    <script>
+        new Vue ({
+            el : "#app",
+            data : {
+                dec : 0,
+                binary : 0,
+            },
+            watch : {
+                dec : function(value){
+                    this.des = value;
+                    this.binary = parseInt(value.toString(2));
+                },
+                binary : function(value){
+                    this.binary = value;
+                    this.dec = parseInt(value, 2);
+                }
+            },
+                
+            
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>computed</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+        computed : 
+        date객체의 값이 바뀔때마다, computed를 자동으로 호출해서 연산한 결과 출력
+    -->
+    <div id="app">
+        <h1>computed속성 사용법</h1>
+        <label for="">정가 : </label>
+        <input type="text" v-model="pay">
+        <br>
+        <label for="">할인율 : </label>
+        <input type="text"  v-model="per">
+
+        <!--
+            computed를 사용하면 긴 표현식의 내용을 함수형식으로 사용할 수 있다.
+        -->
+        <p>{{per}}% 할인된 가격 : {{discount}}</p>
+
+        <hr>
+        <h1>filtering</h1>
+        <h3>filter메소드(배열)와  match메소드(문자열)를 사용한 필터링</h3>
+        <label for="">seaching for city : </label>
+        <input type="text" v-model="searchCity">
+        <ul>
+            <li v-for="city in cityFilter">{{city}}</li>
+        </ul>
+        
+        <p>전체 도시이름</p>
+        <ul>
+            <li v-for="city in cities">{{city}}</li>
+        </ul>
+        <hr>
+        <h3>computed속성 실습</h3>
+        <p>값을 거꾸로 출력</p>
+        <input type="text" v-model="text">
+        <p>{{reversText}}</p>
+    </div>
+    <script>
+        new Vue ({
+            el : "#app",
+            data : {
+                pay : "",
+                per : "",
+                searchCity : "",
+                cities : ['seoul','paris','busan','seattle','newyork','daegu'],
+                text : "",
+            },
+            computed : {
+                //기본적으로 값을 돌려주기 위해 retrun작성
+                discount : function() {
+                    return this.pay - (this.pay * (this.per/100));
+                },
+                cityFilter: function() {
+                    return this.cities.filter(
+                        city => city.toUpperCase().match(this.searchCity.toUpperCase()) );
+                        //화살표 함수의 this는 자기자신의 함수가 아니라
+                        //자신을 감싸고 있는 함수나, 객체의 this이다.
+                },
+                reversText : function() {
+                    return this.text.split("").reverse().join("");
+                }
+            },
+            
+        })
+    </script>
+</body>
+</html>

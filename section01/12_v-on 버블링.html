@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .div{
+            background-color: lightsalmon;
+            border: darkorange 1px solid;
+
+        }
+        p {
+            background-color: lightgreen;
+            border: green 1px solid;
+        }
+        span {
+            background-color: lightgoldenrodyellow;
+            border: yellow 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>v-on bubble</h1>
+
+        <div class="div" @click="msg" id="div">
+            <!--
+                vue또한 자바스크립트 기반이기 때문에 bubbling발생
+                stop키워드를 통해 막을 수 있다.
+            -->
+            <p @click.stop="msg" id="p"> p태그 안의 <span @click="msg" id="span">span태그</span></p>
+        </div>
+
+    </div>
+
+    <script>
+        new Vue({
+            el : "#app",
+            data : {
+                
+            },
+            methods : {
+                msg(e) {
+                    e.stopPropagation();
+                    return alert(e.target.id + " : " + e.currentTarget.id);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

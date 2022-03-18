@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--methods : 동적인 작업처리 / 명시적 호출로 사용-->
+    <div id="app">
+        <h1>methods</h1>
+        <button @click="sayHello1">버튼을 눌러주세요(sayHello1)</button>
+        <button @mouseleave="sayHello2">버튼을 눌러주세요(sayHello2)</button>
+        <hr>
+        <h3>methods 속성 실습</h3>
+        <form>
+            <input type="text" v-model="name">
+            <button @click="alertMsg">누르면 alert이 발생합니다</button>
+        </form>
+    </div>
+
+    <script>
+        new Vue({
+            el : "#app",
+            data : {
+                message : "data의 메세지입니다",
+                name : "",
+            },
+            methods : {
+                //(1) function 사용
+                sayHello1 : function() {
+                    alert(this.message);
+                },
+                //(2) function생략
+                //type : 이벤트 타입
+                //target : 이벤트 대상
+                sayHello2 (e) {
+                    if(e.type == "mouseleave") {
+                        alert("마우스가 떠났습니다.")
+                    }else {
+                        alert(this.message);
+                    }
+                },
+                alertMsg : function (){
+                    alert(this.name+ "님,"+ this.message)
+                },
+            },
+        })
+
+    </script>
+</body>
+</html>
