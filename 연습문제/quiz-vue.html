@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        h1 {color: blue; margin-top: 40px;}
+
+        #start {
+            font-size: 1.2em; color: white; background-color: darkorange;
+            border: none; padding: 10px; border-radius: 10px;
+        }
+
+        #score {
+            font-size: 1.2em; font-weight: bold; 
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Quiz 맞추기</h1>
+        <p>(3문제, 중복있음)</p>
+
+        <!--v-on event : show값을 변경, 초기화, 퀴즈시작-->
+        <button id="start" @click.prevent="start">시작</button>
+        <h2>{{quiz}}</h2>
+        <!--v-on event : form을 사용하게되면 submit이벤트 사용가능 : 값을 들고와서 비교후 3문제가 지나면 종료-->
+        <form v-show="inputForm" v-on:submit.prevent="inputSubmit">
+            <input type="text" v-model="userText">
+        </form>
+        <p id="score" v-bind="scoreText" >{{scoreText}}</p>
+        <p id="time">{{time}}</p>
+    </div>
+    
+    <script>
+        new Vue({
+            el : "#app",
+            data: {
+                inputForm : false,
+                quiz : "",
+                userText : "",
+                count : 0,
+                score : 0,
+                scoreText : "",
+                randomNum : 0,
+                usedQuiz : [],  //사용한 퀴즈 중복x
+                quizArray : [
+                    {quiz:"13 + 50",answer:"63"},
+                    {quiz:"10 - 1",answer:"9"},
+                    {quiz:"110 + 10",answer:"120"},
+                    {quiz:"0 x 36",answer:"0"}
+                ],
+                time : 0,
+                timeId : "",
+            },
+            methods : {
+                start (e) {
+                    this.inputForm = true;
+                    this.quizeStart();
+                    clearTimeout(this.timeId);
+                    this.time =0;
+                    if(this.show) {
+                        this.timeId = setInterval ( () => this.time++, 1000);
+                    }
+                    this.score = "";
+                    this.userText.focus();
+
+                },
+                quizeStart() {
+                    this.randomNum = Math.floor(Math.random() * this.quizArray.length);
+                    this.quiz = (this.quizArray[this.randomNum].quiz);
+                },
+                inputSubmit () {
+                    const answer = this.quizArray[this.randomNum].answer;
+                    const user = this.userText;
+                    this.count ++;
+
+                    if (user == answer) {
+                        this.score ++;
+                        this.scoreText = this.score + "점 입니다!";
+                        this.usedQuiz.push(this.quizArray.splice(this.random,1)[0]);
+                    }
+                    this.quizeStart();
+                    this.userText = "";
+
+                    if (this.count == 3) {
+                        this.inputForm = false;
+                        this.quiz = "";
+                        this.count = 0;
+                        this.score = 0;
+                    }
+                },
+            },
+        });
+
+    </script>
+</body>
+</html>

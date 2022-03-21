@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+    <div id="app">
+        <h1 v-bind:style="onStyle">{{ school }}</h1>
+        <h3 class="sayHello">{{greeting}}</h3>
+        <div v-show="loginDiv">
+            <input type="text" v-model="logoinName" required> 
+            <button @click="loginBtn">login</button>
+        </div>
+
+        <h3> 학생 리스트</h3>
+        <table class="list_table">
+            <tr>
+                <td>번호</td>
+                <td>이름</td>
+            </tr>
+            <tr  v-for="student in students">
+                <td>{{student.number}}</td>
+                <td>{{student.name}}</td>
+            </tr>
+        </table>
+        
+        <h3>학생추가</h3>
+        <form>
+            <label>이름 : </label>
+            <input type="text" v-model="inputName">
+            
+            <label >점수 : </label>
+            <input type="text" v-model="inputScore">
+            <input type="submit" value="Submit" @click ="onSubmit">
+        </form>
+        <p>평균 : <span>{{avrCalc}}</span></p>
+    </div>
+
+    <script>
+        new Vue({
+            el : "#app",
+            data : {
+                school : "00대학교",
+                logoinName : "",
+                greeting : "",
+                loginDiv : true,
+                onStyle : {
+                    color : "blue",
+                },
+                students : [
+                    {number : 1, name : "홍길동", score : 80},
+                    {number : 2, name : "성춘향", score : 70},
+                    {number : 3, name : "콩쥐", score : 90}
+                ],
+                number : "",
+                inputName : "",
+                inputScore : "",
+            },
+            methods : { 
+                loginBtn () {
+                    this.school = "";
+                    this.greeting = this.logoinName + "님, 반갑습니다!";
+                    this.loginDiv= false;
+                },
+                onSubmit (e) {
+                    e.preventDefault();
+                    this.students.push({number : this.students.length+1 ,name : this.inputName, score : parseInt(this.inputScore)});
+                    this.inputName = "";
+                    this.inputScore = "";
+                },
+            },
+            computed : {
+                avrCalc : function() { 
+                    let score = this.students.score;
+                    let sum = 0;
+                    for (let i =0; i<this.students.length; i++) {
+                        sum += this.students[i].score;
+                        
+                    }
+                    return sum / this.students.length;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
