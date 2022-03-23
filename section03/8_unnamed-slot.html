@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot(unnamed)</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+        slot : 컴포넌트를 재사용하게 만드는 기능
+            템플릿의 빈 부분에 값을 넣는 방법
+
+        슬롯의 종류
+        1) unnamed slot : 가장 기본적인 슬롯
+        컴포넌트안에 slot을 넣으면 -> html #app안에 나타남(슬롯태그 위치에)
+        2) 
+    -->
+    <h1>Slot(unnamed)</h1>
+    <div id="app">
+        <slot-component>새로운 값을 넣어줍니다</slot-component>
+
+        <slot-component>
+            <!--태그를 여러개 넣어도 하나의 slot에 들어감-->
+            <p>P태그를 작성해서 넣어줍니다</p>
+            <p>P태그를 작성해서 넣어줍니다2</p>
+        </slot-component>
+
+        <hr>
+        <h3>unnamed slot실습</h3>
+        <link-component url="http://www.naver.com/">네이버</link-component>
+        <link-component url="https://www.daum.net//">다음</link-component>
+
+        <hr>
+        <h3>unnamed slot실습2</h3>
+        <input type="text" v-model="memo">
+        <button @click="addMemo">추가</button>
+        <memo-component v-for="m in memolist">{{m}}</memo-component>
+
+    </div>
+    
+    <script>
+        //메모장 컴포넌트
+
+
+        Vue.component('memo-component', {
+            template : 
+            `
+            <div>
+                <h3>메모</h3>
+                <p><slot>{{memo}}</slot><br>
+                {{this.time}}
+                </p>
+            </div>
+            `,
+            data () {
+                return {
+                    time : new Date(),
+                }
+            },
+            methods : {
+                
+            }
+        });
+
+
+        //url출력 컴포넌트
+        Vue.component('link-component',{
+            props : ['url'],
+            template : `
+            <div>
+                <p>slot사용</p>
+                <a v-bind:href="url"><slot></slot></a>
+            </div>
+            `,
+        });
+
+        //unnamed slot작성한 component
+        Vue.component('slot-component', {
+            template : //슬롯을 하나 더 만들면 동일한 값이 반복됨
+            `<div>
+                <h3>슬롯입니다</h3>
+                <slot></slot>
+                <slot></slot>
+            </div>
+            `,
+        });
+
+
+
+        new Vue({
+            el : "#app",
+            data : {
+                memo: "",  //메모내용
+                memolist: [],  //add메모했을때 메모갯수 추가
+            },
+            methods : {
+                addMemo : function() {  //input text안의 memo의 값을 가져와서 memolist에 넣어줌
+                    this.memolist.push(this.memo);
+                    this.memo = "";
+                }
+            },
+        })
+
+    </script>
+</body>
+</html>

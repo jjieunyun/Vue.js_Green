@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>component Scope</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+
+    -->
+    <div id="app">
+    <h3>component Scope</h3>
+        <!--
+        컴포넌트 적용범위
+        전역등록 : 다른 컴포넌트에서 불러 쓸 수있음(Vue인스턴스 위에등록)
+        -->
+
+        <h3>1. 일반 컴포넌트 작성-</h3>
+        <!--일반 컴포넌트 작성-->
+        <samll-component></samll-component>
+
+        <h3>2. Vue인스턴스에 등록된 지역 컴포넌트</h3>
+        <!--Vue인스턴스에 등록된 지역 컴포넌트-->
+        <vue-component></vue-component>
+
+        <h3>3. 컴포넌트안에 컴포넌트를 사용하여 불러옴</h3>
+        <!--컴포넌트안에 컴포넌트를 사용하여 불러옴-->
+        <used-component></used-component>
+
+        <hr>
+        <h3>component Scope적용범위 실습</h3>
+
+        <mychild-component></mychild-component>
+        <mychild2-component></mychild2-component>
+
+    </div>
+
+    <script>
+
+        //다른 컴포넌트에서 사용하기 위한 컴포넌트
+        Vue.component('samll-component',{
+            template : `<p>small-component(다른 컴포넌트에서 사용하기 위한 컴포넌트)</p>`
+        })
+        
+        //다른 컴포넌트를 템플릿에 불러와서 사용
+        Vue.component('used-component', {
+            template : `
+            <div>
+                <p>used컴포넌트입니다.</P>
+                    <!--전역컴포넌트를 불러옴-->
+                <samll-component></samll-component>
+                <vue-component></vue-component>
+            </div>
+            `
+        })
+
+        new Vue({
+            el : "#app",
+            components : {
+                'vue-component' : {
+                    template : `
+                    <div>
+                        <p>(vue의 인스턴스로 등록)div#app에서만 쓸수있는 컴포넌트입니다</p>    
+                    </div>`
+                },
+                'mychild-component' : {
+                    template : 
+                    `<div>
+                        <p>vue인스턴스의 첫번째 지역 컴포넌트</p>
+                    </div>`
+                },
+                'mychild2-component' : {
+                    template : 
+                    `<div>
+                        <p>vue인스턴스의 두번째 지역 컴포넌트</p>
+                    </div>`
+                },
+
+            }
+        })
+
+    </script>
+</body>
+</html>

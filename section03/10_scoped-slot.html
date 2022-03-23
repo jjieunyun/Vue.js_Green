@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scoped-splot</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+        scoped slot : 
+        이미 렌더링된 HTML태그를 전달하는 것이 아니라 템플릿을 재사용
+        자식 컴포넌트에서 부모컴포넌트로 전달가능
+    -->
+    <h1>component</h1>
+    <div id="app">
+        <scopedsplot-component>
+            <!--지정된 속성의 값을 가져와서 사용할 수 있다-->
+            <!--{} 없이 들고오면 객체로 들고옴 -->
+            <template slot-scope="{num}" > 
+                <p>{{num}}</p>
+                <p v-for="n in num">{{n}}</p>
+            </template>
+        </scopedsplot-component>
+
+        <hr>
+        <h3>scoped slot실습</h3>
+        <show-picture>
+            <template slot-scope="{catsname}">
+                <p>{{catsname}}</p>
+                <p v-for="item in catsname">{{item}}</p>
+            </template>
+        </show-picture>
+
+    </div>
+
+    <script>
+        Vue.component('show-picture',{
+            template : 
+            `<div>
+            <slot v-bind:catsname="cats"></slot>
+            </div>`,
+            data() {
+                return {
+                    cats : ['랙돌', '코리안숏', '러시안블루'],
+                }
+            }
+        });
+
+        Vue.component('scopedsplot-component', {
+            template : `
+            <div>
+                <h3>scoped slot사용</h3>
+                <!--slot의 num속성에 component의 number값을 전달-->
+                <slot v-bind:num="number"></slot>
+            </div>
+            `,
+            data () {
+                return {
+                    number : [1,2,3],
+                    name : '홍길동',
+                }
+            }
+        })
+
+
+
+        new Vue({
+            el : "#app",
+            data : {
+
+            },
+            methods : {
+
+            }
+        })
+
+    </script>
+</body>
+</html>

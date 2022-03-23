@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot(named)</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+        named slot : name속성이 포함된 형태
+                다양한 유형의 다수의 콘텐츠를 주입할 때 사용
+    -->
+    <h1>Slot(named)</h1>
+    <div id="app">
+        <h3>named slot 예제</h3>
+        <named-component>
+            <!--named slot의 특징 : 
+                slot name을 태그의 속성으로 넣고 다른 태그에서 사용할 수있음
+            -->
+            <div slot="movie">
+                <img src="" alt="스파이더맨포스터">
+                <p>스파이더맨</p>
+            </div>
+            <!--여러개의 슬롯을 이용하여 다른 값을 넣어줄 수 있다.-->
+            <p slot="rate">5.5</p>
+            <p slot="rate">5</p>
+        </named-component>
+        <hr>
+        <h3>named slot 실습</h3>
+        
+        <name-component>
+            <div slot="person">
+                <img src="https://cdn.pixabay.com/photo/2017/11/06/13/45/cap-2923682_960_720.jpg"
+                alt="홍길동" width="200">
+                <p>홍길동</p>
+            </div>
+                <p slot="depart">개발팀</p>
+            </div>
+        </name-component>
+        
+    </div>
+
+    <script>
+        Vue.component ('name-component',{
+            template : `
+            <div>
+                <h4>인사관리카드</h4>
+                <slot name="person"></slot>
+                <p>부서 : </p>
+                <slot name="depart"></slot> </p>
+            </div>
+            `,
+        });
+
+        Vue.component('named-component', {
+            template : 
+            `<div>
+                <h3>영화</h3>
+                <slot name='movie'></slot>
+                <p>평점</p>
+                <slot name='rate'></slot>
+            </div>`,
+        })
+
+
+
+        new Vue({
+            el : "#app",
+            data : {
+
+            },
+            methods : {
+
+            }
+        })
+
+    </script>
+</body>
+</html>

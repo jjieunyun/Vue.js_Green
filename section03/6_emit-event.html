@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>emit event</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+        $emit() : 사용자 정의 이벤트를 트리거
+        $emit("사용자정의 이벤트이름", 넘겨줄 인수)
+    -->
+    <h1>부모자식간의 통신 $emit()</h1>
+    <h3>$emit()예제</h3>
+    <div id="app">
+        <!--(5)$emit()을 통해서 호출한 이벤트(smessage) 발생-->
+        <!--(6) Vue인스턴스의 receiveMessage메서드 호출-->
+        <p>전달받은 message : {{message}}</p>
+        <send-message v-on:smessage="receiveMessage"></send-message>
+
+        <hr>
+        <h3>$emit()실습</h3>
+        <p>전달받은값(Vue인스턴스에서 작성) : {{count}}</p>
+        <send-count v-on:scount="receiveCount" v-bind:counter="count"></send-count>
+    </div>
+
+    <script>
+        //(2)count값 전달하는 컴포넌트
+        Vue.component('send-count',{
+            props : ['counter'],
+            template :  `
+            <div>
+                <p>전달받은값(component에서 작성) : {{counter}}</p>
+                {{count}}
+                <button @click=count++;>+1</button>
+                <button @click=count--;>-1</button>
+                <!--클릭하면 count값을 보내는 함수 실행-->
+                <button v-on:click="sending">카운트값 전달</button>
+            </div>`,
+            data : function() {
+                return {
+                    count : 0,
+                }
+            },
+            methods : {
+                sending () {
+                    this.$emit("scount",this.count)
+                }
+            }
+        });
+
+        //(1)메시지값 전달하는 컴포넌트
+        Vue.component('send-message', {
+            template : `
+            <div>
+                
+                <input type="text" v-model="message">
+
+                <!--(2) 자식컴포넌트에서 버튼을 눌렀을 때 메소드 실행-->
+                <button v-on:click="send">버튼을 눌러서 값 전달</button>
+            </div>
+            `,
+            data : function () {
+                return {
+                    message : "보낸값"
+                };
+            },
+            methods : {
+                //(3) 자식 컴포넌트의 메소드에서 이벤트를 만들어서 호출
+                send () {
+                    //(4) 이때 this.message를 인수로 함께 보낸다
+                    this.$emit("smessage",this.message);
+                }
+            }
+        })
+
+
+
+        new Vue({
+            el : "#app",
+            data : {
+                //(1) 자식의 값을 받을 메시지
+                //(1) 자식의 값을 전달받을 count
+                message : '$emmit을 이용해서 전달받기',
+                count : '아직 값을 전달받지 않았습니다',
+            },
+            methods : {
+                //(7) 메서드를 호출하고 받아온 인수값(msg)를 this.message에 할당
+                receiveMessage : function (msg) {
+                    this.message = msg;
+                },
+                receiveCount : function (c) {
+                    this.count = c;
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

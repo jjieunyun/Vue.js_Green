@@ -62,6 +62,7 @@
             },
             methods : {
                 start (e) {
+                    this.quizArray = this.quizArray.concat(this.usedQuiz);
                     this.inputForm = true;
                     this.quizeStart();
                     clearTimeout(this.timeId);
@@ -71,11 +72,11 @@
                     }
                     this.score = "";
                     this.userText.focus();
-
                 },
                 quizeStart() {
                     this.randomNum = Math.floor(Math.random() * this.quizArray.length);
                     this.quiz = (this.quizArray[this.randomNum].quiz);
+                    this.usedQuiz.push(this.quizArray.splice(this.random,1)[0]);
                 },
                 inputSubmit () {
                     const answer = this.quizArray[this.randomNum].answer;
@@ -85,7 +86,6 @@
                     if (user == answer) {
                         this.score ++;
                         this.scoreText = this.score + "점 입니다!";
-                        this.usedQuiz.push(this.quizArray.splice(this.random,1)[0]);
                     }
                     this.quizeStart();
                     this.userText = "";
