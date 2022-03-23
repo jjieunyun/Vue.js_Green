@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{message}}</p>
+        <!--method는 -->
+        <button @click="changeMessage('입력받은 값')">메시지바꿈</button>
+        <button @click="clickBtn">버튼메서드를 이용</button>
+
+        <p>{{reverseMessage}}</p>
+        <p>{{rm}}</p>
+    </div>
+    
+
+    <script>
+        //일반 자바스크립트
+        let pen = {
+            length : 10,
+            write : function (){
+                return '글을씁니다';
+            }
+        };
+
+        //vue 인스턴스
+        new Vue  ({
+            el : '#app',
+            data : {
+                message : '메시지입니다',
+                rm : '', //뒤집어진 메시지를 넣을 공간
+
+            },
+            methods : {
+                changeMessage : function (m) {
+                    this.message =  m + '메시지 변경'
+                },
+                clickBtn () {
+                    this.changeMessage('클릭버튼')  //함수니까 괄호붙이기
+                    this.reverseMessage2();  //호출해줘야댐~~~!!
+                },
+                reverseMessage2 : function () {
+                    return this.message.split('').reverse().join('');
+                }
+
+            },
+            computed : { // data의값이 변경되었을때, 계산된값을 보여줄 떄 computed사용
+                reverseMessage : function () {
+                    return this.message.split('').reverse().join('');
+                }
+            }
+        })
+    </script>
+</body>
+</html>
