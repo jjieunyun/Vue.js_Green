@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <product-display></product-display>
+        
+    <!--리뷰리스트 (출력) : vue인스턴스 data의 reviews : []-->
+    <review-container 
+        v-for="r in reviewlist" >
+        <template v-slot:named1>{{r.name}}</template>
+        <template v-slot:rating1>{{r.review}}</template>
+        <template v-slot:review1>{{r.rating}}</template>
+        <template v-slot:recommend1>{{r.recommend}}</template>
+    </review-container>
+
+
+    <!--리뷰 작성 폼-->
+    <review-form v-on:submit-riview="addReview">
+
+    </review-form>
+
+
+    </div>
+
+    <!-- 컴포넌트 -->
+    <script src="./components/ReviewContainer.js"></script>
+    <script src="./components/ReviewForm.js"></script>
+    <script src="./components/ProductDisplay.js"></script>
+
+    <!-- Vue app -->
+
+    <script>
+        new Vue ({
+            el : "#app",
+            data : {
+                reviewlist : []
+            },
+            methods : {
+            addReview(review) {
+                this.reviewlist.push(review)
+        },
+            }
+        });
+
+    </script>
+    
+
+</body>
+</html>
